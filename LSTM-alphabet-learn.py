@@ -53,3 +53,16 @@ model.fit(X, y, nb_epoch=5000, batch_size=len(dataX), verbose=2, shuffle=False)
 # summarize performance of the model
 scores = model.evaluate(X, y, verbose=0)
 print("Model Accuracy: %.2f%%" % (scores[1]*100))
+
+# Make predictions
+for i in range(20):
+  pattern_index = numpy.random.randint(len(dataX))
+  pattern = dataX[pattern_index]
+  x = pad_sequences([pattern], maxlen=max_len, dtype= float32 )
+  x = numpy.reshape(x, (1, max_len, 1))
+  x = x / float(len(alphabet))
+  prediction = model.predict(x, verbose=0)
+  index = numpy.argmax(prediction)
+  result = int_to_char[index]
+  seq_in = [int_to_char[value] for value in pattern]
+  print seq_in, "->", result
