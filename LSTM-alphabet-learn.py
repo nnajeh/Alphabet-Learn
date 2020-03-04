@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.utils import np_utils
+from keras.preprocessing.sequence import pad_sequences
 
 # fix random seed for reproducibility
 numpy.random.seed(7)
@@ -13,6 +14,7 @@ alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # create mapping of characters to integers (0-25) and the reverse
 char_to_int = dict((c, i) for i, c in enumerate(alphabet))
 int_to_char = dict((i, c) for i, c in enumerate(alphabet))
+
 
 # prepare the dataset of input to output pairs encoded as integers
 seq_length = 1
@@ -32,6 +34,9 @@ for i in range(0, len(alphabet) - seq_length, 1):
   #print(seq_out)
   print (seq_in, '->', seq_out)
   
+# convert list of lists to array and pad sequences if needed
+X = pad_sequences(dataX, maxlen=max_len, dtype= float32 )
+
 # reshape X to be [samples, time steps, features]
 X = numpy.reshape(dataX, (len(dataX), seq_length, 1))
 
